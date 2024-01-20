@@ -7,6 +7,7 @@ import { Link } from 'react-router-dom'
 import Analytics from '../pages/dashboard/Analytics'
 import CreateQuiz from '../pages/dashboard/CreateQuiz'
 import Trending from '../pages/dashboard/Trending'
+import { resetAnalytics } from '../redux/slices/AnalyticsSlice'
 import { logout } from '../redux/slices/AuthSlice';
 import { resetTrending } from '../redux/slices/TrendingSlice';
 
@@ -22,6 +23,7 @@ function HomeLayout({ children }) {
     async function onLogout() {
         await dispatch(logout())
         await dispatch(resetTrending())
+        await dispatch(resetAnalytics())
     }
     return (
         <div className='homelayout'>
