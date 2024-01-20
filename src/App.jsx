@@ -2,8 +2,8 @@ import { useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import { Route, Routes, useLocation, useNavigate } from 'react-router-dom'
 
+import HomeLayout from './layout/HomeLayout'
 import Auth from './pages/auth/Auth'
-import Home from './pages/dashboard/Home'
 
 
 function App() {
@@ -25,7 +25,7 @@ function App() {
     <>
       <Routes>
         <Route path='/' element={<Auth />} />
-        <Route path='/dashboard' element={<Home />} />
+        <Route path='/dashboard' element={<HomeLayout />} />
       </Routes>
     </>
   )
