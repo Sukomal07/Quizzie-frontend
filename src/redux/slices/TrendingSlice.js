@@ -32,7 +32,11 @@ export const getTrending = createAsyncThunk("trendingQuiz/dashboard", async () =
 const trendingSlice = createSlice({
     name: 'trendingQuiz',
     initialState,
-    reducers: {},
+    reducers: {
+        resetTrending: () => {
+            return initialState;
+        },
+    },
     extraReducers: (builder) => {
         builder.addCase(getTrending.fulfilled, (state, action) => {
             const payloadData = action?.payload?.data;
@@ -47,5 +51,5 @@ const trendingSlice = createSlice({
         })
     }
 })
-
+export const { resetTrending } = trendingSlice.actions;
 export default trendingSlice.reducer

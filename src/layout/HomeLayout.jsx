@@ -8,6 +8,7 @@ import Analytics from '../pages/dashboard/Analytics'
 import CreateQuiz from '../pages/dashboard/CreateQuiz'
 import Trending from '../pages/dashboard/Trending'
 import { logout } from '../redux/slices/AuthSlice';
+import { resetTrending } from '../redux/slices/TrendingSlice';
 
 function HomeLayout({ children }) {
     const [activeTab, setActiveTab] = useState('dashboard');
@@ -20,6 +21,7 @@ function HomeLayout({ children }) {
 
     async function onLogout() {
         await dispatch(logout())
+        await dispatch(resetTrending())
     }
     return (
         <div className='homelayout'>
