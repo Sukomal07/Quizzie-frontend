@@ -34,16 +34,20 @@ function Trending() {
             </div>
             <div className="all-quiz">
                 <h1>Trending Quizs</h1>
-                <div className='card-container'>
-                    {trendingData?.trendingQuizzes?.map((quiz) => (
-                        <QuizCard
-                            key={quiz._id}
-                            quizName={quiz.quizName}
-                            views={quiz.views}
-                            createdAt={formatCreatedAt(quiz.createdAt)}
-                        />
-                    ))}
-                </div>
+                {trendingData?.trendingQuizzes?.length > 0 ? (
+                    <div className='card-container'>
+                        {trendingData.trendingQuizzes.map((quiz) => (
+                            <QuizCard
+                                key={quiz._id}
+                                quizName={quiz.quizName}
+                                views={quiz.views}
+                                createdAt={formatCreatedAt(quiz.createdAt)}
+                            />
+                        ))}
+                    </div>
+                ) : (
+                    <p style={{ color: 'red', fontSize: '2rem', fontFamily: 'sans-serif' }}>No trending quizzes available.</p>
+                )}
             </div>
         </div>
     )
