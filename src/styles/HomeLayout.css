@@ -20,7 +20,7 @@
 }
 .title {
   text-decoration: none;
-  font-size: 4rem;
+  font-size: 5rem;
 }
 .sidebar-menu {
   display: flex;
@@ -33,7 +33,7 @@
   color: #474444;
   font-family: sans-serif;
   font-weight: 550;
-  padding: 12px 0;
+  padding: 10px 0;
   cursor: pointer;
   width: 100%;
   text-align: center;
@@ -55,4 +55,9 @@
   font-weight: 550;
   cursor: pointer;
   font-size: 20px;
+}
+.tabActive {
+  background-color: #ffffff;
+  box-shadow: 0 0 14px 0 rgba(0, 0, 0, 0.12);
+  border-radius: 13px;
 }
