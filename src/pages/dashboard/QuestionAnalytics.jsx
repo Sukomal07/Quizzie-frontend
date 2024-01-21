@@ -8,7 +8,6 @@ import ViewQuestion from '../../components/ViewQuestion'
 function QuestionAnalytics() {
     const { state } = useLocation()
     const quiz = state?.quizData
-    console.log(quiz);
 
     const formatCreatedAt = (createdAt) => {
         const options = { day: '2-digit', month: 'short', year: 'numeric' };
