@@ -12,7 +12,7 @@ import { resetAnalytics } from '../redux/slices/AnalyticsSlice'
 import { logout } from '../redux/slices/AuthSlice';
 import { resetTrending } from '../redux/slices/TrendingSlice';
 
-function HomeLayout({ children }) {
+function HomeLayout() {
     const [activeTab, setActiveTab] = useState('dashboard');
 
     const dispatch = useDispatch();
@@ -55,15 +55,16 @@ function HomeLayout({ children }) {
                         <Trending />
                     ) : activeTab === 'analytics' ? (
                         <Analytics setActiveTab={setActiveTab} />
-                    ) : activeTab === 'createQuiz' ? (
-                        <CreateQuiz />
                     ) : activeTab === 'questionAnalytics' ? (
                         <QuestionAnalytics />
                     ) : (
-                        children
+                        <></>
                     )}
                 </div>
             </div>
+            {activeTab === 'createQuiz' ? (
+                <CreateQuiz setActiveTab={setActiveTab} />
+            ) : (<></>)}
         </div>
     )
 }
