@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom'
 
 import Analytics from '../pages/dashboard/Analytics'
 import CreateQuiz from '../pages/dashboard/CreateQuiz'
+import QuestionAnalytics from '../pages/dashboard/QuestionAnalytics';
 import Trending from '../pages/dashboard/Trending'
 import { resetAnalytics } from '../redux/slices/AnalyticsSlice'
 import { logout } from '../redux/slices/AuthSlice';
@@ -53,9 +54,11 @@ function HomeLayout({ children }) {
                     {activeTab === 'dashboard' ? (
                         <Trending />
                     ) : activeTab === 'analytics' ? (
-                        <Analytics />
+                        <Analytics setActiveTab={setActiveTab} />
                     ) : activeTab === 'createQuiz' ? (
                         <CreateQuiz />
+                    ) : activeTab === 'questionAnalytics' ? (
+                        <QuestionAnalytics />
                     ) : (
                         children
                     )}

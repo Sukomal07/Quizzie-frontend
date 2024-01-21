@@ -38,15 +38,15 @@ function Trending() {
                     <div className='card-container'>
                         {trendingData.trendingQuizzes.map((quiz) => (
                             <QuizCard
-                                key={quiz._id}
-                                quizName={quiz.quizName}
-                                views={quiz.views}
-                                createdAt={formatCreatedAt(quiz.createdAt)}
+                                key={quiz?._id}
+                                quizName={quiz?.quizName}
+                                views={quiz?.views}
+                                createdAt={formatCreatedAt(quiz?.createdAt)}
                             />
                         ))}
                     </div>
                 ) : (
-                    <p style={{ color: 'red', fontSize: '2rem', fontFamily: 'sans-serif' }}>No trending quizzes available.</p>
+                    <p style={{ color: 'red', fontSize: '2rem', fontFamily: 'sans-serif' }}>You haven't created any Quiz, Click on Create Quiz to create your first Quiz.</p>
                 )}
             </div>
         </div>
