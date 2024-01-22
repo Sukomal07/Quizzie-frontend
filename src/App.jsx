@@ -11,6 +11,7 @@ function App() {
   const location = useLocation()
 
   const isLoggedIn = useSelector((state) => state.auth?.isLoggedIn);
+  // const accessToken = document.cookie.includes('accessToken');
 
   useEffect(() => {
     if (isLoggedIn && (location.pathname === '/')) {
