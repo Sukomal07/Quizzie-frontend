@@ -1,24 +1,12 @@
-import { useState } from 'react';
-
 import deleteImage from '../assets/deleteImage.svg';
 
-function QuestionCard({ quizType }) {
-    const [question, setQuestion] = useState({
-        questionName: '',
-        optionType: '',
-        options: [
-            { id: 1, option: { text: '', imageUrl: '' }, isCorrect: false },
-            { id: 2, option: { text: '', imageUrl: '' }, isCorrect: false }
-        ]
-    });
-
-    console.log(question);
+function QuestionCard({ quizType, question, setQuestion, isActive }) {
 
     const handleOptionTypeChange = (type) => {
         setQuestion((prevQuestion) => ({
             ...prevQuestion,
             optionType: type,
-            options: prevQuestion.options.map((opt) => ({ ...opt, isCorrect: false }))
+            options: prevQuestion.options.map((opt) => ({ ...opt, isCorrect: false })),
         }));
     };
 
@@ -28,8 +16,12 @@ function QuestionCard({ quizType }) {
                 ...prevQuestion,
                 options: [
                     ...prevQuestion.options,
-                    { id: prevQuestion.options.length + 1, option: { text: '', imageUrl: '' }, isCorrect: false }
-                ]
+                    {
+                        id: prevQuestion.options.length + 1,
+                        option: { ...initialOption },
+                        isCorrect: false,
+                    },
+                ],
             }));
         }
     };
@@ -37,24 +29,47 @@ function QuestionCard({ quizType }) {
     const handleDeleteOption = (id) => {
         setQuestion((prevQuestion) => ({
             ...prevQuestion,
-            options: prevQuestion.options.filter((opt) => opt.id !== id)
+            options: prevQuestion.options.filter((opt) => opt.id !== id),
         }));
     };
+
     const handleOptionSelection = (id) => {
         setQuestion((prevQuestion) => ({
             ...prevQuestion,
             options: prevQuestion.options.map((opt) => ({
                 ...opt,
-                isCorrect: opt.id === id
-            }))
+                isCorrect: opt.id === id,
+            })),
         }));
     };
+
+    const handleInputChange = (e, optionId) => {
+        const { name, value } = e.target;
+        setQuestion((prevQuestion) => ({
+            ...prevQuestion,
+            options: prevQuestion.options.map((o) =>
+                o.id === optionId
+                    ? {
+                        ...o,
+                        option: { ...o.option, [name]: value },
+                    }
+                    : o
+            ),
+        }));
+    };
+    const handleTimerOptionChange = (timerOption) => {
+        setQuestion((prevQuestion) => ({
+            ...prevQuestion,
+            timerOption,
+        }));
+    };
+
     return (
-        <div className="create-question-container">
+        <div className="create-question-container" style={{ display: isActive ? 'flex' : 'none' }}>
             <input
                 type="text"
                 name="questionName"
-                id="questionName"
+                id='questionName'
                 autoComplete="off"
                 autoFocus
                 placeholder={`${quizType} Question`}
@@ -80,62 +95,62 @@ function QuestionCard({ quizType }) {
                     ))}
                 </div>
             </div>
-            <div className='option-timer'>
+            <div className="option-timer">
                 <div className="options">
-                    {question.options.map((option) => (
+                    {question.options.map((option, index) => (
                         <div key={option.id}>
-                            <input type="radio" name={`option${option.id}`} id={`option${option.id}`} checked={option.isCorrect}
-                                onChange={() => handleOptionSelection(option.id)} />
+                            {quizType === 'Q&A' && (
+                                <input
+                                    type="radio"
+                                    name={`option${option.id}`}
+                                    checked={option.isCorrect}
+                                    onChange={() => handleOptionSelection(option.id)}
+                                />
+                            )}
                             <input
                                 type="text"
-                                name={`option${option.id}`}
+                                name={question.optionType === 'imageUrl' ? 'imageUrl' : 'text'}
                                 placeholder={question.optionType === 'imageUrl' ? 'Image Url' : 'Text'}
                                 autoComplete="off"
                                 value={question.optionType === 'imageUrl' ? option.option.imageUrl : option.option.text}
-                                onChange={(e) =>
-                                    setQuestion((prevQuestion) => ({
-                                        ...prevQuestion,
-                                        options: prevQuestion.options.map((o) =>
-                                            o.id === option.id ? { ...o, text: e.target.value } : o
-                                        )
-                                    }))
-                                }
+                                onChange={(e) => handleInputChange(e, option.id)}
+                                className={option.isCorrect ? 'option correctQuestion' : 'option'}
                             />
                             {question.optionType === 'text_and_image' && (
                                 <input
                                     type="text"
-                                    name={`option${option.id}`}
+                                    name="imageUrl"
                                     placeholder="Image URL"
                                     autoComplete="off"
                                     value={option.option.imageUrl}
-                                    onChange={(e) =>
-                                        setQuestion((prevQuestion) => ({
-                                            ...prevQuestion,
-                                            options: prevQuestion.options.map((o) =>
-                                                o.id === option.id ? { ...o, imageUrl: e.target.value } : o
-                                            )
-                                        }))
-                                    }
+                                    onChange={(e) => handleInputChange(e, option.id)}
+                                    className={option.isCorrect ? 'option correctQuestion' : 'option'}
                                 />
                             )}
-                            {question.options.length > 2 && (
+                            {question.options.length > 2 && index === question.options.length - 1 && (
                                 <img
                                     src={deleteImage}
-                                    className='deleteIcon'
+                                    className="deleteIcon"
                                     alt="icon"
                                     onClick={() => handleDeleteOption(option.id)}
                                 />
                             )}
                         </div>
                     ))}
-                    {question.options.length < 4 && <button className='add-option' onClick={handleAddOption}>Add Option</button>}
+                    {question.options.length < 4 && <button className="add-option" onClick={handleAddOption}>Add Option</button>}
                 </div>
                 {quizType === 'Q&A' && (
-                    <div className='timer'>
+                    <div className="timer">
                         <span>Timer</span>
-                        <span className='style'>OFF</span>
-                        <span className='style'>5 sec</span>
-                        <span className='style'>10 sec</span>
+                        {['off', '5', '10'].map((timerOption) => (
+                            <span
+                                key={timerOption}
+                                className={`style ${question.timerOption === timerOption ? 'activeTimer' : ''}`}
+                                onClick={() => handleTimerOptionChange(timerOption)}
+                            >
+                                {timerOption === 'off' ? 'OFF' : `${timerOption} sec`}
+                            </span>
+                        ))}
                     </div>
                 )}
             </div>

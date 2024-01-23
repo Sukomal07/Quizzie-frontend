@@ -1,6 +1,6 @@
 import '../../styles/CreateQuiz.css'
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import QuestionCard from '../../components/QuestionCard';
 
@@ -8,9 +8,25 @@ function CreateQuiz({ setActiveTab }) {
     const [visible, setVisible] = useState(true);
     const [model, setModel] = useState(true);
     const [questionCount, setQuestionCount] = useState(1);
+    const [activeQuestionIndex, setActiveQuestionIndex] = useState(0);
+    const initialOption = { text: '', imageUrl: '' };
+    const initialOptions = Array.from({ length: 2 }, (_, id) => ({
+        id: id + 1,
+        option: { ...initialOption },
+        isCorrect: false,
+    }));
+
+    const [question, setQuestion] = useState({
+        questionName: '',
+        optionType: '',
+        options: initialOptions,
+        timerOption: 'off',
+    });
+
     const [quiz, setQuiz] = useState({
-        name: '',
-        type: ''
+        quizName: '',
+        quizType: '',
+        questions: [question],
     });
     const [error, setError] = useState({
         quizNameError: '',
@@ -29,17 +45,17 @@ function CreateQuiz({ setActiveTab }) {
     };
 
     const handleContinue = () => {
-        if (quiz.name.trim() === '') {
+        if (quiz.quizName.trim() === '') {
             setError({ ...error, quizNameError: 'Quiz name is required.' });
-        } else if (quiz.type.trim() === '') {
+        } else if (quiz.quizType.trim() === '') {
             setError({ ...error, quizTypeError: 'Quiz type is required.' });
         } else {
             setModel(false);
         }
     };
 
-    const handleQuizType = (type) => {
-        setQuiz({ ...quiz, type });
+    const handleQuizType = (quizType) => {
+        setQuiz({ ...quiz, quizType });
         setError({ ...error, quizTypeError: '' });
     };
 
@@ -50,7 +66,10 @@ function CreateQuiz({ setActiveTab }) {
     };
 
     const handleRemoveQuestion = () => {
-        setQuestionCount((prevCount) => prevCount - 1);
+        if (questionCount > 1) {
+            setQuestionCount((prevCount) => prevCount - 1);
+            setActiveQuestionIndex((prevCount) => prevCount - 1)
+        }
     };
 
     const renderCloseButton = (questionNumber) => {
@@ -60,6 +79,24 @@ function CreateQuiz({ setActiveTab }) {
         return null;
     };
 
+    const handleQuestionNumberClick = (index) => {
+        setActiveQuestionIndex(index === activeQuestionIndex ? index : index);
+    };
+
+    const handleCreateQuiz = () => {
+        const newQuestion = { ...question };
+
+        setQuiz((prevQuiz) => ({
+            ...prevQuiz,
+            questions: [...prevQuiz.questions, newQuestion],
+        }));
+        console.log(quiz);
+
+    }
+    console.log(activeQuestionIndex)
+    useEffect(() => {
+
+    }, [quiz])
     const containerStyle = { display: `${visible ? 'flex' : 'none'}` };
 
     return (
@@ -68,22 +105,22 @@ function CreateQuiz({ setActiveTab }) {
                 <div className="first-model" style={{ display: `${model ? 'flex' : 'none'}` }}>
                     <input
                         type="text"
-                        name="name"
+                        name="quizName"
                         placeholder="Quiz name"
                         id="name"
                         autoComplete="off"
                         autoFocus
                         onChange={handleUserInput}
-                        value={quiz.name || error.quizNameError}
+                        value={quiz.quizName || error.quizNameError}
                         style={{ border: error.quizNameError ? '1px solid red' : '' }}
                     />
                     <div>
                         <div className="quiz-type">
                             <span className="type">Quiz type</span>
-                            <span className={quiz.type === 'Q&A' ? 'q activeType' : 'q'} onClick={() => handleQuizType('Q&A')}>
+                            <span className={quiz.quizType === 'Q&A' ? 'q activeType' : 'q'} onClick={() => handleQuizType('Q&A')}>
                                 Q & A
                             </span>
-                            <span className={quiz.type === 'Poll' ? 'q activeType' : 'q'} onClick={() => handleQuizType('Poll')}>
+                            <span className={quiz.quizType === 'Poll' ? 'q activeType' : 'q'} onClick={() => handleQuizType('Poll')}>
                                 Poll
                             </span>
                         </div>
@@ -94,7 +131,9 @@ function CreateQuiz({ setActiveTab }) {
                     <div className="header">
                         <div className='numbers'>
                             {[...Array(questionCount).keys()].map((index) => (
-                                <div className="question-number" key={index + 1}>
+                                <div className={`question-number ${index === activeQuestionIndex ? 'active-question' : ''}`} key={index + 1}
+                                    onClick={() => handleQuestionNumberClick(index)}
+                                >
                                     {index + 1} {renderCloseButton(index + 1)}
                                 </div>
                             ))}
@@ -103,7 +142,15 @@ function CreateQuiz({ setActiveTab }) {
                         <span className='max'>Max 5 Questions</span>
                     </div>
                     <div className="create-question">
-                        <QuestionCard quizType={quiz.type} />
+                        {[...Array(questionCount).keys()].map((index) => (
+                            <QuestionCard
+                                key={index + 1}
+                                quizType={quiz.quizType}
+                                question={question}
+                                setQuestion={setQuestion}
+                                isActive={index === activeQuestionIndex}
+                            />
+                        ))}
                     </div>
                 </div>
                 <div className="buttons">
@@ -113,7 +160,7 @@ function CreateQuiz({ setActiveTab }) {
                     <button className="continue" onClick={handleContinue} style={{ display: `${model ? '' : 'none'}` }}>
                         Continue
                     </button>
-                    <button className='continue' style={{ display: `${model ? 'none' : ''}` }}>
+                    <button className='continue' style={{ display: `${model ? 'none' : ''}` }} onClick={handleCreateQuiz}>
                         Create Quiz
                     </button>
                 </div>

@@ -63,7 +63,7 @@
 }
 .buttons {
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
   gap: 2rem;
   margin-top: 2rem;
 }
@@ -125,6 +125,9 @@
   cursor: pointer;
   filter: drop-shadow(0 0 10px rgba(0, 0, 0, 0.15));
   padding: 1rem;
+}
+.active-question {
+  border: 2px solid #60b84b;
 }
 .close {
   position: absolute;
@@ -204,8 +207,9 @@
   align-items: center;
   gap: 20px;
 }
-.options > div > input {
-  background: #fff;
+.option {
+  background-color: #fff;
+  color: black;
   border: none;
   border-radius: 0.625rem;
   box-shadow: 0 0 25px 0 rgba(0, 0, 0, 0.15);
@@ -240,4 +244,12 @@
 .activeTimer {
   background-color: #d60000;
   color: white;
+}
+.correctQuestion {
+  background-color: #60b84b;
+  color: white;
+}
+
+.hideQuestionCard {
+  display: none;
 }
