@@ -4,6 +4,7 @@ import { Route, Routes, useLocation, useNavigate } from 'react-router-dom'
 
 import HomeLayout from './layout/HomeLayout'
 import Auth from './pages/auth/Auth'
+import Quiz from './pages/quiz_interface/Quiz'
 
 
 function App() {
@@ -27,6 +28,7 @@ function App() {
       <Routes>
         <Route path='/' element={<Auth />} />
         <Route path='/dashboard' element={<HomeLayout />} />
+        <Route path='/quiz/:quizId' element={<Quiz />} />
       </Routes>
     </>
   )
