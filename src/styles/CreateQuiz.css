@@ -28,7 +28,7 @@
   height: 100%;
   gap: 2rem;
 }
-#name {
+#quizName {
   background: #fff;
   border: none;
   border-radius: 0.625rem;
@@ -197,12 +197,12 @@
   cursor: pointer;
   text-align: center;
 }
-.options {
+.options-type {
   display: flex;
   flex-direction: column;
   gap: 1rem;
 }
-.options > div {
+.options-type > div {
   display: flex;
   align-items: center;
   gap: 20px;

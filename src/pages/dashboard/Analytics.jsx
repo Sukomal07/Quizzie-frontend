@@ -10,12 +10,12 @@ import shareImage from '../../assets/shareImage.svg'
 import updateImage from '../../assets/updateImage.svg'
 import { deleteQuiz, getAnalytics } from '../../redux/slices/AnalyticsSlice'
 
-const FRONTEND_URL = import.meta.env.VITE_FRONTEND_URL
 
 function Analytics({ setActiveTab }) {
     const navigate = useNavigate();
     const dispatch = useDispatch()
     const analytics = useSelector((state) => state.analyticsSlice);
+    const FRONTEND_URL = import.meta.env.VITE_FRONTEND_URL
 
     useEffect(() => {
         async function fetchData() {

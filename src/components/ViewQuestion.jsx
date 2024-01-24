@@ -1,5 +1,5 @@
 function ViewQuestion({ questionNumber, questionName, quizType, options, totalAttempts, totalCorrectAttempts, totalIncorrectAttempts }) {
-    console.log(totalAttempts);
+
     return (
         <div className="view-question">
             <h1>Q.{questionNumber} {questionName}</h1>

@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { useDispatch } from 'react-redux'
 import { Link } from 'react-router-dom'
 
+import ShareCard from '../components/ShareCard';
 import Analytics from '../pages/dashboard/Analytics'
 import CreateQuiz from '../pages/dashboard/CreateQuiz'
 import QuestionAnalytics from '../pages/dashboard/QuestionAnalytics';
@@ -14,7 +15,7 @@ import { resetTrending } from '../redux/slices/TrendingSlice';
 
 function HomeLayout() {
     const [activeTab, setActiveTab] = useState('dashboard');
-
+    const [quizId, setQuizId] = useState(null);
     const dispatch = useDispatch();
 
     function handleTabClick(tab) {
@@ -63,7 +64,8 @@ function HomeLayout() {
                 </div>
             </div>
             {activeTab === 'createQuiz' ? (
-                <CreateQuiz setActiveTab={setActiveTab} />
+                quizId ? (<ShareCard quizId={quizId} setActiveTab={setActiveTab} setQuizId={setQuizId} />) :
+                    (<CreateQuiz setActiveTab={setActiveTab} setQuizId={setQuizId} />)
             ) : (<></>)}
         </div>
     )

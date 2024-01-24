@@ -20,7 +20,7 @@ function QuestionAnalytics() {
                 <h1>{quiz?.quizName} Question Analysis</h1>
                 <div>
                     <span>Created on : {formatCreatedAt(quiz?.createdAt)}</span>
-                    <span>Impressions: {quiz.views}</span>
+                    <span>Impressions: {quiz?.views}</span>
                 </div>
             </div>
             <div className='questions-details'>
