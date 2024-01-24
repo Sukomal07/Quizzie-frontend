@@ -10,7 +10,7 @@ const initialState = {
 export const getAnalytics = createAsyncThunk("quiz/analytics", async () => {
     try {
         const res = axiosInstance.get("/quiz/analysis");
-
+        toast.dismiss()
         toast.promise(res, {
             loading: "Loading...",
             success: (data) => {
@@ -28,7 +28,7 @@ export const getAnalytics = createAsyncThunk("quiz/analytics", async () => {
 export const deleteQuiz = createAsyncThunk("quiz/delete", async (quizId) => {
     try {
         const res = axiosInstance.delete(`/quiz/${quizId}/delete`);
-
+        toast.dismiss()
         toast.promise(res, {
             loading: "Wait! deleting quiz...",
             success: (data) => {
@@ -43,6 +43,25 @@ export const deleteQuiz = createAsyncThunk("quiz/delete", async (quizId) => {
         console.error(error.message)
     }
 })
+export const createQuiz = createAsyncThunk("quiz/create", async (quizData) => {
+    try {
+        const res = axiosInstance.post('/quiz/newquiz', quizData);
+
+        toast.promise(res, {
+            loading: "Wait! creating quiz...",
+            success: (data) => {
+                return data?.data?.message;
+            },
+            error: (error) => {
+                return error?.response?.data?.message
+            },
+        });
+        return (await res).data
+    } catch (error) {
+        console.error(error.message)
+    }
+})
+
 
 const analyticsSlice = createSlice({
     name: 'analyticsSlice',

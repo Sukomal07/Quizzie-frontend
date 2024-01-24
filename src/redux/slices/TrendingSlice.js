@@ -13,7 +13,7 @@ const initialState = {
 export const getTrending = createAsyncThunk("trendingQuiz/dashboard", async () => {
     try {
         const res = axiosInstance.get("/quiz/dashboard");
-
+        toast.dismiss()
         toast.promise(res, {
             loading: "Loading...",
             success: (data) => {
