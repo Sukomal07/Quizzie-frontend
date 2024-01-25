@@ -43,24 +43,6 @@ export const deleteQuiz = createAsyncThunk("quiz/delete", async (quizId) => {
         console.error(error.message)
     }
 })
-export const createQuiz = createAsyncThunk("quiz/create", async (quizData) => {
-    try {
-        const res = axiosInstance.post('/quiz/newquiz', quizData);
-
-        toast.promise(res, {
-            loading: "Wait! creating quiz...",
-            success: (data) => {
-                return data?.data?.message;
-            },
-            error: (error) => {
-                return error?.response?.data?.message
-            },
-        });
-        return (await res).data
-    } catch (error) {
-        console.error(error.message)
-    }
-})
 
 
 const analyticsSlice = createSlice({
