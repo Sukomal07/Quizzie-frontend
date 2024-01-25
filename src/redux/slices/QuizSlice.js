@@ -45,6 +45,44 @@ export const getQuiz = createAsyncThunk("quiz/get", async (quizId) => {
     }
 })
 
+export const attemptQNAQuiz = createAsyncThunk("quiz/qna", async (data) => {
+    try {
+        const res = axiosInstance.post(`/quiz/${data?._id}/qna`, data);
+        toast.dismiss()
+        toast.promise(res, {
+            loading: "Wait! submit quiz answer...",
+            success: (data) => {
+                return data?.data?.message;
+            },
+            error: (error) => {
+                return error?.response?.data?.message
+            },
+        });
+        return (await res).data
+    } catch (error) {
+        console.error(error.message)
+    }
+})
+
+export const attemptPollQuiz = createAsyncThunk("quiz/Poll", async (data) => {
+    try {
+        const res = axiosInstance.post(`/quiz/${data?._id}/poll`, data);
+        toast.dismiss()
+        toast.promise(res, {
+            loading: "Wait! submit quiz answer...",
+            success: (data) => {
+                return data?.data?.message;
+            },
+            error: (error) => {
+                return error?.response?.data?.message
+            },
+        });
+        return (await res).data
+    } catch (error) {
+        console.error(error.message)
+    }
+})
+
 
 
 const quizSlice = createSlice({
