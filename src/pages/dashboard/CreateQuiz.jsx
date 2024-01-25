@@ -5,7 +5,7 @@ import toast from 'react-hot-toast'
 import { useDispatch } from 'react-redux'
 
 import deleteImage from '../../assets/deleteImage.svg';
-import { createQuiz } from '../../redux/slices/AnalyticsSlice';
+import { createQuiz } from '../../redux/slices/QuizSlice';
 function CreateQuiz({ setActiveTab, setQuizId }) {
     const dispatch = useDispatch()
     const [model, setModel] = useState(true)
