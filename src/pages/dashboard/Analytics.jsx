@@ -42,10 +42,19 @@ function Analytics({ setActiveTab }) {
     };
 
     const handleQuestionAnalysis = (quizId) => {
-        const quizData = analytics.quizzes.find((quiz) => quiz._id === quizId);
+        const quizData = analytics.quizzes.find((quiz) => quiz?._id === quizId);
 
         if (quizData) {
             setActiveTab('questionAnalytics');
+            navigate(`/dashboard`, { state: { quizData } });
+        }
+    };
+
+    const handleQuizUpdate = (quizId) => {
+        const quizData = analytics.quizzes.find((quiz) => quiz?._id === quizId);
+
+        if (quizData) {
+            setActiveTab('updateQuiz');
             navigate(`/dashboard`, { state: { quizData } });
         }
     };
@@ -76,7 +85,7 @@ function Analytics({ setActiveTab }) {
                                     <td>{formatCreatedAt(quiz?.createdAt)}</td>
                                     <td>{quiz?.views}</td>
                                     <td>
-                                        <img src={updateImage} alt="icon" />
+                                        <img src={updateImage} alt="icon" onClick={() => handleQuizUpdate(quiz?._id)} />
                                         <img
                                             src={deleteImage}
                                             alt="icon"
