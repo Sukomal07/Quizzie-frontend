@@ -26,6 +26,25 @@ export const createQuiz = createAsyncThunk("quiz/create", async (quizData) => {
     }
 })
 
+export const updateQuiz = createAsyncThunk("quiz/update", async (data) => {
+    try {
+        const res = axiosInstance.put(`/quiz/${data?._id}/update`, data);
+        toast.dismiss()
+        toast.promise(res, {
+            loading: "Wait! updating quiz...",
+            success: (data) => {
+                return data?.data?.message;
+            },
+            error: (error) => {
+                return error?.response?.data?.message
+            },
+        });
+        return (await res).data
+    } catch (error) {
+        console.error(error.message)
+    }
+})
+
 export const getQuiz = createAsyncThunk("quiz/get", async (quizId) => {
     try {
         const res = axiosInstance.get(`/quiz/${quizId}`);
