@@ -2,7 +2,7 @@ import '../styles/HomeLayout.css'
 
 import { useState } from 'react';
 import { useDispatch } from 'react-redux'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 import ShareCard from '../components/ShareCard';
 import Analytics from '../pages/dashboard/Analytics'
@@ -17,7 +17,9 @@ import { resetTrending } from '../redux/slices/TrendingSlice';
 function HomeLayout() {
     const [activeTab, setActiveTab] = useState('dashboard');
     const [quizId, setQuizId] = useState(null);
+
     const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     function handleTabClick(tab) {
         setActiveTab(tab);
@@ -27,6 +29,7 @@ function HomeLayout() {
         await dispatch(logout())
         await dispatch(resetTrending())
         await dispatch(resetAnalytics())
+        navigate('/')
     }
     return (
         <div className='homelayout'>

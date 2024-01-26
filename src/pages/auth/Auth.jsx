@@ -2,6 +2,7 @@ import '../../styles/Auth.css'
 
 import { useState } from 'react';
 import { useDispatch } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 
 import { createAccount, login } from '../../redux/slices/AuthSlice'
 
@@ -20,6 +21,7 @@ function Login() {
         confirm_password: ''
     });
     const dispatch = useDispatch()
+    const navigate = useNavigate()
 
     const handleTabClick = (tab) => {
         setActiveTab(tab);
@@ -73,6 +75,7 @@ function Login() {
             }
 
             if (response.payload?.success) {
+                navigate('/dashboard')
                 setData({
                     name: '',
                     email: '',

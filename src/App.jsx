@@ -1,5 +1,4 @@
 import { useEffect } from 'react'
-import { useSelector } from 'react-redux'
 import { Route, Routes, useLocation, useNavigate } from 'react-router-dom'
 
 import HomeLayout from './layout/HomeLayout'
@@ -11,17 +10,16 @@ function App() {
   const navigate = useNavigate()
   const location = useLocation()
 
-  const isLoggedIn = useSelector((state) => state.auth?.isLoggedIn);
-  // const accessToken = document.cookie.includes('accessToken');
+  const accessToken = document.cookie.includes('accessToken');
 
   useEffect(() => {
-    if (isLoggedIn && (location.pathname === '/')) {
+    if (accessToken && (location.pathname === '/')) {
       navigate('/dashboard')
     }
-    if (!isLoggedIn) {
+    if (!accessToken) {
       navigate('/')
     }
-  }, [isLoggedIn, location.pathname, navigate])
+  }, [accessToken, location.pathname, navigate])
 
   return (
     <>
