@@ -9,6 +9,7 @@ import Analytics from '../pages/dashboard/Analytics'
 import CreateQuiz from '../pages/dashboard/CreateQuiz'
 import QuestionAnalytics from '../pages/dashboard/QuestionAnalytics';
 import Trending from '../pages/dashboard/Trending'
+import UpdateQuiz from '../pages/quiz_interface/UpdateQuiz';
 import { resetAnalytics } from '../redux/slices/AnalyticsSlice'
 import { logout } from '../redux/slices/AuthSlice';
 import { resetTrending } from '../redux/slices/TrendingSlice';
@@ -58,6 +59,8 @@ function HomeLayout() {
                         <Analytics setActiveTab={setActiveTab} />
                     ) : activeTab === 'questionAnalytics' ? (
                         <QuestionAnalytics />
+                    ) : activeTab === 'updateQuiz' ? (
+                        <UpdateQuiz setActiveTab={setActiveTab} />
                     ) : (
                         <></>
                     )}
