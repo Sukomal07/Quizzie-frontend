@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 
+import QuizResult from '../../components/QuizResult';
 import { attemptPollQuiz, attemptQNAQuiz, getQuiz } from '../../redux/slices/QuizSlice';
 
 function Quiz() {
@@ -12,7 +13,9 @@ function Quiz() {
     const quiz = useSelector((state) => state.quizSlice.quiz);
 
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
+    const [quizCompleted, setQuizCompleted] = useState(false);
     const [timer, setTimer] = useState(null);
+    const [myScore, setMyScore] = useState(0);
     const [data, setData] = useState({
         _id: quizId,
         answers: []
@@ -54,13 +57,14 @@ function Quiz() {
     };
 
     const handleSubmitQuiz = async () => {
+        let res;
         if (quiz?.quizType === 'Q&A') {
-            const res = await dispatch(attemptQNAQuiz(data))
-            console.log(res.payload);
+            res = await dispatch(attemptQNAQuiz(data))
+            setMyScore(res?.payload?.data)
         } else {
-            const res = await dispatch(attemptPollQuiz(data))
-            console.log(res.payload);
+            res = await dispatch(attemptPollQuiz(data))
         }
+        setQuizCompleted(true)
     };
 
     const handleOptionClick = (index) => {
@@ -73,6 +77,10 @@ function Quiz() {
 
 
     const currentQuestion = quiz?.questions?.[currentQuestionIndex];
+
+    if (quizCompleted) {
+        return <QuizResult quizType={quiz?.quizType} myScore={myScore} totalScore={quiz?.totalQuestions} />;
+    }
 
     return (
         <div className='quiz-container'>
