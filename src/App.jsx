@@ -1,5 +1,6 @@
 import { useEffect } from 'react'
-import { Route, Routes, useLocation, useNavigate } from 'react-router-dom'
+import { useSelector } from 'react-redux'
+import { Route, Routes, useNavigate } from 'react-router-dom'
 
 import HomeLayout from './layout/HomeLayout'
 import Auth from './pages/auth/Auth'
@@ -8,18 +9,14 @@ import Quiz from './pages/quiz_interface/Quiz'
 
 function App() {
   const navigate = useNavigate()
-  const location = useLocation()
 
-  const accessToken = document.cookie.includes('accessToken');
+  const isLoggedIn = useSelector((state) => state.auth?.isLoggedIn);
 
   useEffect(() => {
-    if (accessToken && (location.pathname === '/')) {
+    if (isLoggedIn) {
       navigate('/dashboard')
     }
-    if (!accessToken) {
-      navigate('/')
-    }
-  }, [accessToken, location.pathname, navigate])
+  }, [isLoggedIn, navigate])
 
   return (
     <>

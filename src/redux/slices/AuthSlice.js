@@ -4,6 +4,7 @@ import toast from 'react-hot-toast'
 import axiosInstance from '../../helpers/AxiosInstance'
 
 const initialState = {
+    isLoggedIn: localStorage.getItem("isLoggedIn") || false,
     data: {}
 }
 
@@ -71,10 +72,15 @@ const authSlice = createSlice({
     extraReducers: (builder) => {
         builder.addCase(login.fulfilled, (state, action) => {
             state.data = action?.payload?.data
+            if (action?.payload?.data) {
+                localStorage.setItem("isLoggedIn", true);
+                state.isLoggedIn = true
+            }
         })
         builder.addCase(logout.fulfilled, (state) => {
             localStorage.clear();
             state.data = {};
+            state.isLoggedIn = false
         })
     }
 })
