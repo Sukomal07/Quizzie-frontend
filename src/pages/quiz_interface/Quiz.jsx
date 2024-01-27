@@ -14,6 +14,7 @@ function Quiz() {
 
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
     const [quizCompleted, setQuizCompleted] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
     const [timer, setTimer] = useState(null);
     const [myScore, setMyScore] = useState(0);
     const [data, setData] = useState({
@@ -24,7 +25,9 @@ function Quiz() {
 
     useEffect(() => {
         async function fetchData() {
+            setIsLoading(true)
             await dispatch(getQuiz(quizId));
+            setIsLoading(false)
         }
         fetchData()
     }, [])
@@ -84,7 +87,9 @@ function Quiz() {
 
     return (
         <div className='quiz-container'>
-            {currentQuestion && (
+            {isLoading ? (
+                <div className="loader"></div>
+            ) : (
                 <div className='quiz-questions'>
                     <div className='question-header'>
                         <span className='questionIndex'>0{currentQuestionIndex + 1} / 0{quiz?.totalQuestions}</span>

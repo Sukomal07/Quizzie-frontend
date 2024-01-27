@@ -1,6 +1,6 @@
 import '../../styles/Trending.css'
 
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
 import QuizCard from '../../components/QuizCard'
@@ -9,20 +9,25 @@ import { getTrending } from '../../redux/slices/TrendingSlice'
 
 function Trending() {
     const dispatch = useDispatch();
-
+    const [isLoading, setIsLoading] = useState(false);
     const trendingData = useSelector((state) => state.trendingQuiz);
 
     useEffect(() => {
         async function fetchData() {
+            setIsLoading(true)
             await dispatch(getTrending());
+            setIsLoading(false)
         }
-
         fetchData()
     }, [])
 
     const formatCreatedAt = (createdAt) => {
         const options = { day: '2-digit', month: 'short', year: 'numeric' };
         return new Date(createdAt).toLocaleString('en-IN', options);
+    }
+
+    if (isLoading) {
+        return <div className="loader"></div>;
     }
 
     return (

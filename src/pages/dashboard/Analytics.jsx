@@ -1,6 +1,6 @@
 import '../../styles/Analytics.css'
 
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import toast from 'react-hot-toast'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
@@ -14,14 +14,16 @@ import { deleteQuiz, getAnalytics } from '../../redux/slices/AnalyticsSlice'
 function Analytics({ setActiveTab }) {
     const navigate = useNavigate();
     const dispatch = useDispatch()
+    const [isLoading, setIsLoading] = useState(false);
     const analytics = useSelector((state) => state.analyticsSlice);
     const FRONTEND_URL = import.meta.env.VITE_FRONTEND_URL
 
     useEffect(() => {
         async function fetchData() {
+            setIsLoading(true)
             await dispatch(getAnalytics());
+            setIsLoading(false)
         }
-
         fetchData()
     }, [])
 
@@ -58,6 +60,10 @@ function Analytics({ setActiveTab }) {
             navigate(`/dashboard`, { state: { quizData } });
         }
     };
+
+    if (isLoading) {
+        return <div className="loader"></div>;
+    }
 
     return (
         <div className="analytics-container">
