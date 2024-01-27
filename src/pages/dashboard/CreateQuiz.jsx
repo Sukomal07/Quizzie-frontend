@@ -277,7 +277,7 @@ function CreateQuiz({ setActiveTab, setQuizId }) {
                                     );
                                 })
                             }
-                            <span className='plus' onClick={handleAddQuestion}>+</span>
+                            {quiz.questions.length < 5 && <span className='plus' onClick={handleAddQuestion}>+</span>}
                         </div>
                         <span className='max'>Max 5 Questions</span>
                     </div>
