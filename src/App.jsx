@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 import { useSelector } from 'react-redux'
-import { Route, Routes, useNavigate } from 'react-router-dom'
+import { Route, Routes, useLocation, useNavigate } from 'react-router-dom'
 
 import HomeLayout from './layout/HomeLayout'
 import Auth from './pages/auth/Auth'
@@ -9,14 +9,15 @@ import Quiz from './pages/quiz_interface/Quiz'
 
 function App() {
   const navigate = useNavigate()
+  const location = useLocation()
 
   const isLoggedIn = useSelector((state) => state.auth?.isLoggedIn);
 
   useEffect(() => {
-    if (isLoggedIn) {
+    if (isLoggedIn && (location.pathname === '/')) {
       navigate('/dashboard')
     }
-  }, [isLoggedIn, navigate])
+  }, [isLoggedIn, location.pathname, navigate])
 
   return (
     <>
