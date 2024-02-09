@@ -2,7 +2,6 @@ import '../../styles/Auth.css'
 
 import { useState } from 'react';
 import { useDispatch } from 'react-redux'
-import { useNavigate } from 'react-router-dom'
 
 import { createAccount, login } from '../../redux/slices/AuthSlice'
 
@@ -21,7 +20,6 @@ function Login() {
         confirm_password: ''
     });
     const dispatch = useDispatch()
-    const navigate = useNavigate()
 
     const handleTabClick = (tab) => {
         setActiveTab(tab);
@@ -75,7 +73,6 @@ function Login() {
             }
 
             if (response.payload?.success) {
-                navigate('/dashboard')
                 setData({
                     name: '',
                     email: '',
@@ -121,7 +118,8 @@ function Login() {
                                     className={`input ${errors.name ? 'input-error' : ''}`}
                                     autoComplete='off'
                                     onChange={handleUserInput}
-                                    value={data.name || errors.name}
+                                    placeholder={'' || errors.name}
+                                    value={data.name}
                                 />
                             </div>
                         )}
@@ -136,7 +134,8 @@ function Login() {
                                 className={`input ${errors.email ? 'input-error' : ''}`}
                                 autoComplete='off'
                                 onChange={handleUserInput}
-                                value={data.email || errors.email}
+                                placeholder={'' || errors.email}
+                                value={data.email}
                             />
                         </div>
                         <div className='password'>
@@ -150,7 +149,8 @@ function Login() {
                                 className={`input ${errors.password ? 'input-error' : ''}`}
                                 autoComplete='off'
                                 onChange={handleUserInput}
-                                value={data.password || errors.password}
+                                placeholder={'' || errors.password}
+                                value={data.password}
                             />
                         </div>
                         {activeTab === 'signup' && (
@@ -165,7 +165,8 @@ function Login() {
                                     className={`input ${errors.confirm_password ? 'input-error' : ''}`}
                                     autoComplete='off'
                                     onChange={handleUserInput}
-                                    value={data.confirm_password || errors.confirm_password}
+                                    placeholder={'' || errors.confirm_password}
+                                    value={data.confirm_password}
                                 />
                             </div>
                         )}
